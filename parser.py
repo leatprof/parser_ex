@@ -1,7 +1,7 @@
 import urllib2
 from bs4 import BeautifulSoup
 import json
-
+from time import sleep
 
 BASE_URL = 'http://www.pechenuka.ru/'
 receipt = []
@@ -73,6 +73,7 @@ def parse_cat(html):
     for row in rows:
         col = row.find('a')
         receipt = []
+        sleep(1.05)
         receipt_html = get_html(BASE_URL + col['href']);
         #receipt_html = get_html('http://www.pechenuka.ru/news/category/sup-pyure/');
         total_pages = get_page_count(receipt_html)
@@ -113,6 +114,7 @@ def parse_cat(html):
                 "step_by_step_recipe": parse_step_by_step_receipt(receipt_html),
             })
             for page in range(2, total_pages + 1):
+                sleep(1.05)
                 receipt_html = get_html(BASE_URL + col['href'] + "page%d.html" % page)
                 receipt.append({
                 'url': col['href'],
