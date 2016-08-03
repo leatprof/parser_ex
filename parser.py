@@ -6,7 +6,14 @@ from time import sleep
 BASE_URL = 'http://www.pechenuka.ru/'
 receipt = []
 def get_html(url):
-    response = urllib2.urlopen(url)
+    try:
+        response = urllib2.urlopen(url)
+    except urllib2.HTTPError as err:
+        if err.code == 404:
+            return "";
+        else:
+            sleep(15)
+            return get_html(url)
     return response.read()
 
 
@@ -73,7 +80,6 @@ def parse_cat(html):
     for row in rows:
         col = row.find('a')
         receipt = []
-        sleep(1.05)
         receipt_html = get_html(BASE_URL + col['href']);
         #receipt_html = get_html('http://www.pechenuka.ru/news/category/sup-pyure/');
         total_pages = get_page_count(receipt_html)
@@ -114,7 +120,6 @@ def parse_cat(html):
                 "step_by_step_recipe": parse_step_by_step_receipt(receipt_html),
             })
             for page in range(2, total_pages + 1):
-                sleep(1.05)
                 receipt_html = get_html(BASE_URL + col['href'] + "page%d.html" % page)
                 receipt.append({
                 'url': col['href'],
@@ -133,7 +138,7 @@ def parse_cat(html):
                 "ingredients":parse_ingridients(receipt_html),
                 "step_by_step_recipe": parse_step_by_step_receipt(receipt_html),
                 })
-        print json.dumps(receipt)
+        print json.dumps(receipt, ensure_ascii=False)
     
     
 def parse_main(html):
