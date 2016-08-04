@@ -138,7 +138,7 @@ def parse_cat(html):
                 "ingredients":parse_ingridients(receipt_html),
                 "step_by_step_recipe": parse_step_by_step_receipt(receipt_html),
                 })
-        print json.dumps(receipt, ensure_ascii=False, encoding='utf8')
+        print json.dumps(receipt, ensure_ascii=False)
     
     
 def parse_main(html):
