@@ -1,3 +1,4 @@
+# encoding=utf8
 import urllib2
 from bs4 import BeautifulSoup
 import json
@@ -139,7 +140,9 @@ def parse_cat(html):
                 "step_by_step_recipe": parse_step_by_step_receipt(receipt_html),
                 })
         stro = json.dumps(receipt)
-        print stro.decode('unicode-escape', 'ignore')
+        stro = unicode(stro, "utf-8")
+        print stro.decode('unicode-escape', 'replace')
+        #print stro
     
     
 def parse_main(html):
