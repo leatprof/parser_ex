@@ -141,6 +141,7 @@ def parse_cat(html):
                 })
         stro = json.dumps(receipt)
         stro = unicode(stro, "utf-8")
+        stro.encode('utf-8')
         print stro.decode('unicode-escape', 'replace')
         #print stro
     
