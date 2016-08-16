@@ -3,6 +3,18 @@ import urllib2
 from bs4 import BeautifulSoup
 import json
 from time import sleep
+import httplib
+
+def patch_http_response_read(func):
+    def inner(*args):
+        try:
+            return func(*args)
+        except httplib.IncompleteRead, e:
+            return e.partial
+
+    return inner
+
+httplib.HTTPResponse.read = patch_http_response_read(httplib.HTTPResponse.read)
 
 BASE_URL = 'http://www.pechenuka.ru/'
 receipt = []
