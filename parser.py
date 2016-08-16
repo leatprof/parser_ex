@@ -139,10 +139,10 @@ def parse_cat(html):
                 "ingredients":parse_ingridients(receipt_html),
                 "step_by_step_recipe": parse_step_by_step_receipt(receipt_html),
                 })
-        stro = json.dumps(receipt)
-        stro = unicode(stro, "utf-8")
-        stro.encode('utf-8')
-        print stro.decode('unicode-escape', 'replace')
+        stro = json.dumps(receipt,ensure_ascii=False)
+        #stro = unicode(stro, "utf-8")
+        #stro.encode('utf-8')
+        print stro
         #print stro
     
     
