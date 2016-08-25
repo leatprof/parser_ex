@@ -157,8 +157,8 @@ def parse_cat(html):
                 "step_by_step_recipe": parse_step_by_step_receipt(receipt_html),
                 })
         sout = getwriter("utf8")(stdout)
-        print json.dumps(receipt, ensure_ascii=False)
-        #sout.write(json.dumps(receipt, ensure_ascii=False) + '\n')
+        #print json.dumps(receipt, ensure_ascii=False)
+        sout.write(json.dumps(receipt, ensure_ascii=False) + '\n')
         #stro = json.dumps(receipt,ensure_ascii=False)
         #stro = unicode(stro, "utf-8")
         #stro.encode('utf-8')
