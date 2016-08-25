@@ -1,9 +1,11 @@
-# encoding=utf8
+# -*- coding: utf-8 -*-
 import urllib2
 from bs4 import BeautifulSoup
 import json
 from time import sleep
 import httplib
+from codecs import getwriter
+from sys import stdout
 
 def patch_http_response_read(func):
     def inner(*args):
@@ -27,7 +29,10 @@ def get_html(url):
         else:
             sleep(15)
             return get_html(url)
-    return response.read()
+    encoding = response.headers['content-type'].split('charset=')[-1]
+    #responce_html = unicode(response.read(), encoding)
+    responce_html = response.read().decode(encoding,'ignore')
+    return responce_html.encode('utf-8')
 
 
 def parse_receipt_imgs(html):
@@ -151,10 +156,13 @@ def parse_cat(html):
                 "ingredients":parse_ingridients(receipt_html),
                 "step_by_step_recipe": parse_step_by_step_receipt(receipt_html),
                 })
-        stro = json.dumps(receipt,ensure_ascii=False)
+        sout = getwriter("utf8")(stdout)
+        print json.dumps(receipt, ensure_ascii=False)
+        #sout.write(json.dumps(receipt, ensure_ascii=False) + '\n')
+        #stro = json.dumps(receipt,ensure_ascii=False)
         #stro = unicode(stro, "utf-8")
         #stro.encode('utf-8')
-        print stro
+        #print stro
         #print stro
     
     
